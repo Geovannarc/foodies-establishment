@@ -3,6 +3,7 @@ package org.foodies.service.impl;
 import jakarta.transaction.Transactional;
 import lombok.extern.log4j.Log4j2;
 import org.foodies.dto.EstablishmentDTO;
+import org.foodies.dto.EstablishmentFilterResponseDTO;
 import org.foodies.model.EstablishmentModel;
 import org.foodies.repository.EstablishmentRepository;
 import org.foodies.service.EstablishmentService;
@@ -12,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @Log4j2
@@ -50,5 +52,47 @@ public class EstablishmentServiceImpl implements EstablishmentService {
         } else {
             return establishment.get();
         }
+    }
+
+    @Override
+    public List<EstablishmentFilterResponseDTO> findByGeolocation(Double latitude, Double longitude) {
+        return repository.findByGeolocation(latitude, longitude).stream()
+                .map(projection -> new EstablishmentFilterResponseDTO(
+                        projection.getId(),
+                        projection.getName(),
+                        projection.getAddress(),
+                        projection.getRating(),
+                        projection.getNumberRating(),
+                        projection.getDistance()
+                ))
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<EstablishmentFilterResponseDTO> findByCategory(Integer category) {
+        return repository.findByCategory(category).stream()
+                .map(projection -> new EstablishmentFilterResponseDTO(
+                        projection.getId(),
+                        projection.getName(),
+                        projection.getAddress(),
+                        projection.getRating(),
+                        projection.getNumberRating(),
+                        projection.getDistance()
+                ))
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<EstablishmentFilterResponseDTO> findByRating() {
+        return repository.findByRating().stream()
+                .map(projection -> new EstablishmentFilterResponseDTO(
+                        projection.getId(),
+                        projection.getName(),
+                        projection.getAddress(),
+                        projection.getRating(),
+                        projection.getNumberRating(),
+                        projection.getDistance()
+                ))
+                .collect(Collectors.toList());
     }
 }

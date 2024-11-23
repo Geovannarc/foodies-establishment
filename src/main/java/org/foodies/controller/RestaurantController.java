@@ -1,6 +1,7 @@
 package org.foodies.controller;
 
 import org.foodies.dto.EstablishmentDTO;
+import org.foodies.dto.EstablishmentFilterResponseDTO;
 import org.foodies.model.EstablishmentModel;
 import org.foodies.service.EstablishmentService;
 import org.foodies.util.ResponseBuilder;
@@ -43,4 +44,24 @@ public class RestaurantController {
         }
         return new ResponseEntity<>(new ResponseBuilder(restaurants), HttpStatus.OK);
     }
+
+    @GetMapping("/findByGeolocation")
+    public ResponseEntity<ResponseBuilder> findRestaurantByGeolocation(@RequestParam("latitude") final Double latitude,
+                                                                       @RequestParam("longitude") final Double longitude) {
+        final List<EstablishmentFilterResponseDTO> restaurants = restaurantService.findByGeolocation(latitude, longitude);
+        return new ResponseEntity<>(new ResponseBuilder(restaurants), HttpStatus.OK);
+    }
+
+    @GetMapping("/findByCategory")
+    public ResponseEntity<ResponseBuilder> findRestaurantByCategory(@RequestParam("category") final Integer category) {
+        final List<EstablishmentFilterResponseDTO> restaurants = restaurantService.findByCategory(category);
+        return new ResponseEntity<>(new ResponseBuilder(restaurants), HttpStatus.OK);
+    }
+
+    @GetMapping("/findByRating")
+    public ResponseEntity<ResponseBuilder> findRestaurantByRating() {
+        final List<EstablishmentFilterResponseDTO> restaurants = restaurantService.findByRating();
+        return new ResponseEntity<>(new ResponseBuilder(restaurants), HttpStatus.OK);
+    }
+
 }
