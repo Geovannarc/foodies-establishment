@@ -17,8 +17,8 @@ import java.util.Optional;
 public interface EstablishmentRepository extends JpaRepository<EstablishmentModel, Long> {
 
     @Modifying
-    @Query(value = "INSERT INTO establishment (name, address, contact_info, latitude, longitude, google_place_id) " +
-            "VALUES (:#{#model.name}, :#{#model.address}, :#{#model.contact_info}, :#{#model.latitude}, :#{#model.longitude}, :#{#model.google_place_id})", nativeQuery = true)
+    @Query(value = "INSERT INTO establishment (name, address, contact_info, latitude, longitude, google_place_id, rating, number_rating) " +
+            "VALUES (:#{#model.name}, :#{#model.address}, :#{#model.contact_info}, :#{#model.latitude}, :#{#model.longitude}, :#{#model.google_place_id}, 0.0, 0)", nativeQuery = true)
     void saveEstablishment(@Param("model") final EstablishmentModel model);
 
     @Query(value = "SELECT * FROM establishment e WHERE e.name LIKE %:name% LIMIT 20", nativeQuery = true)
