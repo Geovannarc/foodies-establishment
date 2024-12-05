@@ -13,7 +13,7 @@ public class EstablishmentFilterResponseDTO {
     private String name;
     private String address;
     private Float rating;
-    private Integer numberRating;
+    private Integer number_rating;
     private Float distance;
 
 }
